@@ -97,8 +97,8 @@ Comparator: external comparison rule, custom sorting
 students.sort((s1, s2) -> s2.age - s1.age); // negative return s1,s2; 0 no change; positive return s2,s1
 
 ## Overriding vs overloading
-Overloading: same class, same method name, different parameters, compile-time polymorphism
-Overriding: happens between parent class and child class, same method name and parameters(same signature), runtime polymorphism
+Overloading: same class, diffirent signatures (same method name and different parameters), compile-time polymorphism
+Overriding: happens between parent class and child class, same signature but different logic, runtime polymorphism
 
 ## Java 8 basic data types
 byte, short, int, long, float, double, char, boolean
