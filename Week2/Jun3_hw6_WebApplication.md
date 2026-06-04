@@ -1,5 +1,7 @@
 # Homework 6
 
+Recording Link:
+
 ## Client-Server Model
 
 The client-server model is an architecture where the client sends requests and the server processes them and returns responses. It separates the user interface from backend business logic. For example, a browser is the client, and a Spring Boot application is the server.
