@@ -1,6 +1,6 @@
 # Homework 6
 
-Recording Link:
+Recording Link: https://rachel-java-dev-s3-20260526.s3.us-east-2.amazonaws.com/Jun3_HW6_RachelWang.mov
 
 ## Client-Server Model
 
