@@ -29,9 +29,12 @@ Dependency Injection is a design pattern in which an object's dependencies are p
 ## 5. Dependency Injection Demo Code
 
 Dependency Injection means that a class receives its dependencies from the Spring IOC Container instead of creating them with the `new` keyword. In this project, Spring injects `EmployeeService` into `EmployeeController` and injects `EmployeeRepository` into `EmployeeServiceImpl` through constructor injection.
-![Screenshot](./res/screenshot1.png)
-![Screenshot](./res/screenshot2.png)
+
+![Screenshot1](../res/screenshot1.png)
+![Screenshot2](../res/screenshot2.png)
+
 The @AllArgsConstructor annotation generates constructors for these fields. Spring uses these constructors to automatically inject the required beans.
+
 ---
 
 ## 6. What are the different types of Dependency Injection?
