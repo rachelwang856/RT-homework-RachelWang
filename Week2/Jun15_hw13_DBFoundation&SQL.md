@@ -1,4 +1,4 @@
-# Homework 13 — Database Interview Scripts and SQL Practice
+# Homework 13 
 
 
 ## 1. SQL vs NoSQL Database
