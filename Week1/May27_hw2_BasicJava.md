@@ -4,54 +4,83 @@
 
 ## JRE vs JDK vs JVM ##
 
-The JVM is the Java Virtual Machine that runs Java bytecode and manages memory. The JRE is the runtime environment needed to run Java programs, and it includes the JVM and standard libraries. The JDK is used for development and includes the JRE, compiler, and development tools.
+The JVM is the Java Virtual Machine that runs Java bytecode and manages memory. 
+
+The JRE is the minimum runtime environment needed to run Java programs, and it includes the JVM and standard libraries. 
+
+The JDK (Java Development Kit) is used for development and includes the JRE, compiler, and development tools.
 
 
 ## How does JVM work ##
 
-The JVM loads compiled .class files, verifies the bytecode, and executes it on the operating system. It also manages memory, garbage collection, threads, and runtime exceptions. This is why Java can be platform-independent: the same bytecode can run on different systems with different JVM implementations.
+The JVM loads compiled .class files, verifies the bytecode, and executes it on the operating system. It also manages memory, garbage collection, threads, and runtime exceptions.
+
+This is why Java can be platform-independent: the same bytecode can run on different systems with different JVM implementations.
 
 ## JVM memory data model ##
 
-The JVM memory model includes areas such as the Method Area, Heap, Stack, Program Counter Register, and Native Method Stack. The heap stores objects, the stack stores method frames and local variables, and the method area stores class-level information such as static variables and class metadata. Understanding this model helps developers debug memory issues and optimize performance.
+The JVM memory model includes areas such as the Method Area, Heap, Stack, Program Counter Register, and Native Method Stack. The heap stores objects, the stack stores method frames and local variables, and the method area stores class-level information such as static variables and class metadata.
 
 ## How does GC work ##
 
-Garbage Collection automatically reclaims memory from objects that are no longer reachable. The JVM usually starts from GC roots, finds reachable objects, and removes unreachable ones. This helps developers avoid manual memory management, but GC still consumes CPU and memory resources, so poor object management can affect performance.
+Garbage Collection automatically reclaims memory from objects that are no longer reachable. 
+
+In Java, objects are created in the heap. The JVM usually starts from GC roots, finds reachable objects, and removes unreachable ones. This helps developers avoid manual memory management, but GC still consumes CPU and memory resources, so poor object management can affect performance.
 
 ## young/old/perm generation ##
 
-In the traditional generational GC model, the young generation stores newly created objects, and the old generation stores objects that survive multiple GC cycles. The permanent generation, or PermGen, used to store class metadata before Java 8, but it was replaced by Metaspace in Java 8. This design improves GC efficiency because most objects die young.
+In Java heap memory, objects are usually divided into different generations because most objects die young.
+
+the young generation stores newly created objects, and the old generation stores objects that survive multiple GC cycles. The permanent generation, or PermGen, used to store class metadata before Java 8, but it was replaced by Metaspace in Java 8. 
 
 ## difference types of GC ##
 
-Different garbage collectors are designed for different performance goals. For example, Serial GC is simple and suitable for small applications, Parallel GC focuses on throughput, G1GC balances throughput and pause time, and ZGC or Shenandoah are designed for very low pause times. In real systems, we choose a GC based on application size, latency requirements, and memory usage.
+Different garbage collectors are designed for different performance goals. For example, Serial GC is simple and suitable for small applications, Parallel GC focuses on throughput, G1GC balances throughput and pause time, and ZGC or Shenandoah are designed for very low pause times. 
+
+In real systems, we choose a GC based on application size, latency requirements, and memory usage.
 
 # Homework 3
 
-## Java modifier scope: public, private, protected, default scope ##
 
-public means the member can be accessed from anywhere. private means it can only be accessed inside the same class, while protected allows access within the same package and subclasses. Default scope means no modifier is used, and the member can only be accessed within the same package.
+## Java Modifier Scope: public, private, protected, and default
+
+`public` means the member can be accessed from anywhere.
+
+`private` means the member can only be accessed inside the same class.
+
+`protected` means the member can be accessed within the same package, and also by subclasses in different packages through inheritance.
+
+Default scope, also called package-private, means no access modifier is used. The member can only be accessed within the same package.
 
 ## What is static scope ##
 
-static means a variable, method, or block belongs to the class rather than a specific object instance. Static members are loaded with the class and can be accessed through the class name. For example, Math.max() is a static method because we do not need to create a Math object to use it.
+static means a variable, method, or block belongs to the class rather than a specific object instance. Static members are loaded with the class and can be accessed through the class name. 
+
+For example, Math.max() is a static method because we do not need to create a Math object to use it.
 
 ## how does classloader work ##
 
-The classloader loads .class files into the JVM when they are needed. It follows a delegation model, where a classloader first asks its parent classloader to load the class before trying to load it itself. This design helps ensure core Java classes are loaded safely and consistently.
+The classloader loads .class files into the JVM when they are needed. It follows a delegation model, where a classloader first asks its parent classloader to load the class before trying to load it itself. 
+
+This design helps ensure core Java classes are loaded safely and consistently.
 
 ## Describe the difference between unchecked and checked exceptions in Java. ##
 
-Checked exceptions are checked by the compiler, so the developer must either handle them with try-catch or declare them using throws. Unchecked exceptions happen at runtime and usually extend RuntimeException, so the compiler does not force us to handle them. For example, IOException is checked, while NullPointerException is unchecked.
+Checked exceptions are checked by the compiler, so the developer must either handle them with try-catch or declare them using throws. 
+
+Unchecked exceptions happen at runtime, so the compiler does not force us to handle them. For example, IOException is checked, while NullPointerException is unchecked.
 
 ## What is the difference between finally, final, and finalize in Java? ##
 
-final is a keyword used to prevent reassignment, overriding, or inheritance. finally is a block used with try-catch to execute cleanup logic whether an exception happens or not. finalize() was a method called by GC before object destruction, but it is deprecated and should not be used in modern Java.
+final is a keyword used to prevent reassignment, overriding, or inheritance. 
+finally is a block used with try-catch to execute cleanup logic whether an exception happens or not. 
+finalize() was a method called by GC before object destruction, but it is deprecated and should not be used in modern Java.
 
 ## Define try-with resource. How can you say that it differs from an ordinary try? ##
 
-Try-with-resources is a special try statement that automatically closes resources that implement AutoCloseable. It is different from an ordinary try because we do not need to manually close the resource in a finally block. It is commonly used for files, database connections, and streams.
+Try-with-resources is a special try statement that automatically closes resources that implement AutoCloseable. It is different from an ordinary try because we do not need to manually close the resource in a finally block. 
+
+It is commonly used for files, database connections, and streams.
 
 ```java
 try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
@@ -64,7 +93,7 @@ try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
 
 ## Define Runtime Exception. Describe it with the help of an example. ##
 
-A runtime exception is an unchecked exception that occurs during program execution. The compiler does not force us to catch it, but we should still prevent it through good validation. For example, accessing a method on a null object can cause a NullPointerException.
+A runtime exception is an unchecked exception that occurs during program execution. The compiler does not force us to catch it, but we should still prevent it through good validation. For example, Invalid User Input
 
 ```java
 String name = null;
@@ -73,7 +102,11 @@ System.out.println(name.length()); // NullPointerException
 
 ## What is the difference between NoClassDefFoundError and ClassNotFoundException in Java ##
 
-ClassNotFoundException happens when code tries to load a class dynamically using methods like Class.forName(), but the class cannot be found. NoClassDefFoundError happens when a class was available during compilation but is missing at runtime. The first one is a checked exception, while the second one is an error.
+ClassNotFoundException happens when code tries to load a class dynamically using methods like Class.forName(), but the class cannot be found. 
+
+NoClassDefFoundError happens when a class was available during compilation but is missing at runtime. 
+
+The first one is a checked exception, while the second one is an error.
 
 ## Why should we clean up activities such as I/O resources in the finally block? ##
 
@@ -89,11 +122,12 @@ Generics allow us to write classes, interfaces, and methods with type parameters
 
 ## How does Generics works in Java? What is type erasure? ##
 
-Generics work at compile time by checking type correctness. At runtime, Java uses type erasure, which means generic type information is removed and replaced with raw types or bounds. For example, List<String> and List<Integer> are both treated as List at runtime.
+**Generics work at compile time by checking type correctness.** At runtime, Java uses type erasure, which means generic type information is removed and replaced with raw types or bounds. For example, List<String> and List<Integer> are both treated as List at runtime.
 
 ## What is the difference between List<? extends T> and List<? super T>? ##
 
-List<? extends T> means the list can contain objects of type T or its subclasses, so it is mainly used for reading. List<? super T> means the list can contain objects of type T or its parent classes, so it is mainly used for writing. A simple rule is PECS: Producer Extends, Consumer Super.
+List<? extends T> means the list can contain objects of type T or its subclasses, so it is mainly used for reading. 
+List<? super T> means the list can contain objects of type T or its parent classes, so it is mainly used for writing. A simple rule is **PECS: Producer Extends, Consumer Super.**
 
 ## what is Optional class (write a demo code to use ofNullable, orElse, orElseThrow method) ##
 
@@ -113,17 +147,35 @@ System.out.println(result2);
 
 ## what is OOP ##
 
-OOP stands for Object-Oriented Programming, a programming style based on objects and classes. Its main principles are encapsulation, inheritance, polymorphism, and abstraction. For example, a Student class can encapsulate fields like name and score, and different subclasses can override methods to provide different behaviors.
+OOP stands for Object-Oriented Programming. Its main principles are encapsulation, inheritance, polymorphism, and abstraction. 
+
+Encapsulation: 
+Use access modifiers such as private, public, protected, and default to hide internal data and expose controlled access through methods.
+
+Inheritance: 
+A class can inherit from another class using extends. Java supports single inheritance for classes.
+An interface can inherit from multiple interfaces.
+
+Polymorphism: 
+Overload: same class, methods with different signatures (method name + parameters) -> compile-time polymorphism 
+Override: between classes, methods with same signature but different logic -> runtime polymorphism
+
+Abstraction: 
+Hide implementation details and expose only essential features.
+
+
 
 # Homework 4
 
 ## what is functional interface ##
 
-A functional interface is an interface with exactly one abstract method. It can be used with lambda expressions or method references. For example, Runnable, Predicate, Consumer, and Function are common functional interfaces in Java.
+A functional interface is an interface with exactly **one abstract method**. It can be used with lambda expressions or method references. For example, Runnable, Predicate, Consumer, and Function are common functional interfaces in Java.
 
 ## what is default method ##
 
-A default method is a method in an interface that has a method body. It was introduced in Java 8 so interfaces can add new methods without breaking existing implementations. For example, an interface can provide a default log() method that implementing classes can use directly.
+A default method is a method in an interface that has a method body. It was introduced in Java 8 so interfaces can add new methods without breaking existing implementations. 
+
+For example, an interface can provide a default log() method that implementing classes can use directly.
 
 ```java
 interface MyInterface {
@@ -159,26 +211,19 @@ public class FunctionalInterfaceDemo {
 
 ## what is method reference ##
 
-A method reference is a shorter way to write a lambda expression that only calls an existing method. It improves readability when the lambda body simply delegates to another method. For example, System.out::println is a method reference for x -> System.out.println(x).
+A method reference is a shorter way to write a lambda expression that only calls an existing method. It improves readability when the lambda body simply delegates to another method. 
+
+For example, System.out::println is a method reference for x -> System.out.println(x).
 
 ```java
 List<String> names = Arrays.asList("Alice", "Bob");
 names.forEach(System.out::println);
 ```
 
-## what is CompleteableFuture ##
-
-CompletableFuture is a Java class used for asynchronous programming. It allows us to run tasks in the background and combine or handle results later without blocking the main thread. For example, it can be used to call a remote API asynchronously and process the response when it returns.
-
-```java
-CompletableFuture.supplyAsync(() -> "Hello")
-        .thenApply(result -> result + " Java")
-        .thenAccept(System.out::println);
-```
 
 ## Default keyword vs Java default scope ##
 
-The default keyword in Java 8 interfaces is used to define a method with a body inside an interface. Default scope means package-private access when no access modifier is written. They are different concepts: one is a keyword for interface methods, and the other is an access level.
+They are different concepts: one is a keyword for interface methods, and the other is an access level. The default keyword in Java 8 interfaces is used to define a method with a body inside an interface. Default scope means package-private access when no access modifier is written. 
 
 ## Coding: create a list of students, Student Class has name, age, score three fields. List<Student> list = new ArrayList<>(); ##
 
@@ -267,7 +312,10 @@ public class StreamDemo {
 
 ## intermediate operation vs terminal operation ##
 
-Intermediate operations return another stream and are lazy, meaning they do not execute immediately. Terminal operations produce a final result or side effect and trigger the stream pipeline execution. For example, filter() and map() are intermediate operations, while collect(), count(), and forEach() are terminal operations.
+Intermediate operations return another stream and are lazy, meaning they do not execute immediately. 
+Terminal operations produce a final result or side effect and trigger the stream pipeline execution. 
+
+For example, filter() and map() are intermediate operations, while collect(), count(), and forEach() are terminal operations.
 
 ## Coding: given a char array, use stream api to count the frequency of each char ##
 
@@ -294,7 +342,10 @@ public class CharFrequencyDemo {
 ```
 ## Steam API: map() vs flatmap(); ##
 
-map() transforms each element into one new element. flatMap() transforms each element into a stream and then flattens all streams into one stream. For example, map() can convert names to their lengths, while flatMap() can convert a list of sentence lists into one list of words.
+map() transforms each element into one new element. 
+flatMap() transforms each element into a stream and then flattens all streams into one stream. 
+
+For example, map() can convert names to their lengths, while flatMap() can convert a list of sentence lists into one list of words.
 
 ```java
 List<List<String>> nestedList = Arrays.asList(

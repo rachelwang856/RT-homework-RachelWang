@@ -1,10 +1,11 @@
 
 # Homework1
 ## List vs Set
-List is ordered and allows duplicate elements.
-Set does not allow duplicate elements. HashSet do not maintain order, while LinkedHashSet maintains insertion order and TreeSet keeps elements sorted.
+List is **ordered** and allows **duplicate** elements.
+Set does not allow duplicate elements. HashSet do not maintain order, while LinkedHashSet maintains **insertion** order and TreeSet keeps elements **sorted**.
 
 ## LinkedList vs ArrayList
+Both are implements for List interface.
 ArrayList is backed by a dynamic array. It is fast for random access because we can get elements by index in O(1). However, inserting or deleting elements in the middle can be slower because elements may need to be shifted.
 LinkedList is backed by a doubly linked list. It is efficient for adding or removing elements, but random access is slower because it needs to traverse nodes.
 
@@ -26,6 +27,12 @@ Collections Framework is a powerful sets of classes and interfaces that provides
 ## What is immutable class
 An immutable class is a class whose object state cannot be changed after creation. 
 String is a common immutable class in Java.
+
+1. Make the class final so it cannot be extended.
+2. Make fields private and final.
+3. Do not provide setters.
+4. Initialize all fields through the constructor.
+5. If a field is mutable, return a defensive copy instead of the original object.
 
 ## HashTable vs HashMap vs ConcurrentHashmap
 HashMap is not thread-safe. It allows one null key and multiple null values.
@@ -80,7 +87,7 @@ public class Main {
 ```
 
 ## play around the common data structure apis (map, set, queue, list), write some practice codes
-refer to ```day1.java```
+refer to ```May26_hw1_code.java```
 
 
 # Homework2
@@ -104,7 +111,7 @@ Overriding: happens between parent class and child class, same signature but dif
 byte, short, int, long, float, double, char, boolean
 
 ## Primitive type, reference type
-Primitive types store actual values, such as int, double, and boolean.
+Primitive types store actual values. auto boxing
 Reference types store references to objects, such as String, arrays, and custom classes.
 Primitive types cannot be null, while reference types can be null.
 
