@@ -1,11 +1,24 @@
 
 # Singleton Pattern
 
-  
 
 The Singleton pattern ensures that only one instance of a class exists throughout the application. 
 
 It is commonly used for shared resources such as configuration managers, caches, and logging systems. Singleton helps maintain consistency and reduce resource consumption.
+
+## Why use it
+
+### Only one object exists
+
+The constructor is private, so other classes cannot write. They must use `Singleton.getInstance();`.
+
+### Shared state stays consistent
+
+For example, if the application has one configuration manager, all classes read the same configuration instead of creating separate copies.
+
+### Save resorces
+
+Some objects are expensive to create, such as Logger, Cache manager, Thread pool, Configuration manager, Database connection pool manager. A Singleton prevents unnecessary repeated creation.
 
 ## Eager vs Lazy
 
@@ -46,6 +59,7 @@ public class Singleton {
 }
 ```
 
+## User Case
 
 ### Banking
 
@@ -67,10 +81,25 @@ A health insurance system can use a Singleton to manage claim validation rules a
 
 ---
 
+# Strategy Pattern
+
+The Strategy Pattern defines a family of algorithms, puts each algorithm into a separate class, and allows the program to switch between them at runtime. 
+
+It is useful when the same task can be completed using different rules, such as different payment methods, discount calculations, or elevator-selection algorithms.
+
+## Why Use it
+
+The main benefits are:
+
+* It avoids large if-elif blocks for different algorithms.
+* Each algorithm can be changed and tested independently.
+* New strategies can be added without modifying the main system.
+* The strategy can be changed at runtime.
+
+---
+
 # Factory Pattern
-
   
-
 The Factory pattern creates objects without exposing the creation logic to the client. 
 
 It improves flexibility by allowing the application to create different implementations based on business requirements. This pattern is useful when multiple object types share the same interface.
