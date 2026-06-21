@@ -1,3 +1,7 @@
+## Link
+
+https://rachel-java-dev-s3-20260526.s3.us-east-2.amazonaws.com/Jun18_MockRecord.mov
+
 ## how to write restapi in spring boot
 
 In Spring Boot, I create REST APIs using `@RestController`, which combines `@Controller` and `@ResponseBody` to automatically return JSON responses. 
