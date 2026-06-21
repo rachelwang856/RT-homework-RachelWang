@@ -4,7 +4,7 @@ In Spring Boot, I create REST APIs using `@RestController`, which combines `@Con
 
 I use `@RequestMapping` to define the base URL and HTTP method annotations such as `@GetMapping`, `@PostMapping`, `@PutMapping`, and `@DeleteMapping` to implement RESTful endpoints. 
 
-I use `@RequestBody`, `@PathVariable`, `@RequestParam`, and `@RequestHeader` to process request data, return `ResponseEntity` to control both the response payload and HTTP status code, 
+I use `@RequestBody`, `@PathVariable` for url path variables, `@RequestParam`, and `@RequestHeader` to process request data, return `ResponseEntity` to control both the response payload and HTTP status code, 
 
 and use validation annotations such as `@Valid`, `@NotNull`, `@Min`, and `@Max` to validate incoming requests.
 

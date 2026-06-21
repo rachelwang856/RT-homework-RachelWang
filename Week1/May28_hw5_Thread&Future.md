@@ -3,7 +3,19 @@
 
 ## 1. How to Create a Thread in Java
 
-There are four common ways to create a thread in Java: extending Thread, implementing Runnable, implementing Callable, and using ExecutorService. In real backend development, I would usually use a thread pool because it reuses threads and avoids the overhead of creating new threads repeatedly. Callable is useful when the task needs to return a result, while Runnable is enough when no result is needed.
+There are four common ways to create a thread in Java: 
+
+extending Thread: Create a class that extends Thread and override the run() method. Then call start() to create a new thread; 
+
+implementing Runnable: Create a class that implements Runnable and put the task logic in run(). Then pass it to a Thread;
+
+implementing Callable: Callable is similar to Runnable, but it can return a result and throw checked exceptions. It is usually used with FutureTask or ExecutorService; 
+
+using ExecutorService: Instead of manually creating threads, submit tasks to a thread pool. This is the most common approach in real projects because it reuses threads and controls resource usage.
+
+
+
+In real backend development, I would usually use a thread pool because it reuses threads and avoids the overhead of creating new threads repeatedly. Callable is useful when the task needs to return a result, while Runnable is enough when no result is needed.
 
 ```java
 // 1. Extend Thread
@@ -29,7 +41,11 @@ executor.submit(task);
 
 ## 2. Thread Lifecycle
 
-A Java thread has six main states: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED. A thread moves from NEW to RUNNABLE after calling start(), may become BLOCKED when waiting for a lock, and becomes TERMINATED when the run() method finishes. Understanding the lifecycle helps debug concurrency issues such as deadlocks, long blocking, and thread resource waste.
+A Java thread has six main states: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED. A thread moves from NEW to RUNNABLE after calling start(), may become BLOCKED when waiting for a lock, enter WAITING when calling methods like wait() or join(), enter TIMED_WAITING when calling sleep() or wait(timeout), and finally becomes TERMINATED when the run() method finishes.
+
+A Java thread has six main states: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED. A thread moves from NEW to RUNNABLE after calling start(), may become BLOCKED when waiting for a lock, and becomes TERMINATED when the run() method finishes. 
+
+Understanding the lifecycle helps debug concurrency issues such as deadlocks, long blocking, and thread resource waste.
 
 NEW --start()--> RUNNABLE --run() finishes--> TERMINATED 
 RUNNABLE --waiting for lock--> BLOCKED 
@@ -51,7 +67,9 @@ submit task
 
 ## 4. what is the potential problem for the newCachedThreadPool and newFixedThreadPool and why
 
-newCachedThreadPool is risky because its maximum thread count is Integer.MAX_VALUE, so under high traffic it may create too many threads and cause OutOfMemoryError. newFixedThreadPool has a fixed number of threads, but it uses an unbounded queue, so too many pending tasks may accumulate in memory. In production, I would prefer a custom ThreadPoolExecutor with bounded thread count and bounded queue size.
+newCachedThreadPool is risky because its maximum thread count is Integer.MAX_VALUE, so under high traffic it may create too many threads and cause OutOfMemoryError. 
+
+newFixedThreadPool has a fixed number of threads, but it uses an unbounded queue, so too many pending tasks may accumulate in memory. In production, I would prefer a custom ThreadPoolExecutor with bounded thread count and bounded queue size.
 
 | Thread Pool | Problem | Reason |
 |---|---|---|
@@ -63,20 +81,24 @@ newCachedThreadPool is risky because its maximum thread count is Integer.MAX_VAL
 
 ## 5. What Is Future?
 
-Future represents the result of an asynchronous task. It allows the main thread to submit a task and get the result later, but calling get() is blocking. Because of this, Future is useful for simple async tasks, but not ideal for complex non-blocking workflows.
+Future is a Java interface used to represent the result of an asynchronous task. It allows the main thread to submit a task and get the result later, but calling get() is blocking. Because of this, Future is useful for simple async tasks, but not ideal for complex non-blocking workflows.
 
 
 ---
 
 ## 6. What Is CompletableFuture?
 
-CompletableFuture is a Java class for asynchronous and non-blocking programming. It supports task chaining, result transformation, combining multiple tasks, and exception handling. It is commonly used in web applications when calling databases, remote APIs, or multiple services in parallel.
+CompletableFuture is an improved version of Future in Java. It also represents the result of an asynchronous task, but it supports callback, chaining, and combining multiple async tasks.
+
+It is commonly used in web applications when calling databases, remote APIs, or multiple services in parallel.
 
 ---
 
 ## 7. Future vs CompletableFuture
 
-Future can run a task asynchronously, but getting the result usually requires get(), which blocks the current thread. CompletableFuture is more powerful because it supports non-blocking chaining, result transformation, task combination, and exception handling. In modern backend development, CompletableFuture is usually better for complex asynchronous workflows.
+Future can run a task asynchronously, but getting the result usually requires get(), which blocks the current thread. CompletableFuture is more powerful because it supports non-blocking chaining, result transformation, task combination, and exception handling. 
+
+In modern backend development, CompletableFuture is usually better for complex asynchronous workflows.
 
 | Feature | Future | CompletableFuture |
 |---|---|---|
@@ -90,7 +112,11 @@ Future can run a task asynchronously, but getting the result usually requires ge
 
 ## 8. Lock vs synchronized
 
-Both Lock and synchronized are used to protect shared resources and ensure thread safety. synchronized is simpler because the JVM automatically releases the lock, while Lock is more flexible because it supports tryLock(), interruptible locking, and multiple conditions. For simple critical sections, I would use synchronized; for complex concurrency control, I would use ReentrantLock.
+synchronized is a key word in Java, Lock is an interface.
+
+Both Lock and synchronized are used to protect shared resources and ensure thread safety. 
+
+synchronized is simpler because the JVM automatically releases the lock, while Lock is more flexible because it supports tryLock(), interruptible locking, and multiple conditions. For simple critical sections, I would use synchronized; for complex concurrency control, I would use ReentrantLock.
 
 | Feature | synchronized | Lock |
 |---|---|---|
@@ -104,7 +130,9 @@ Both Lock and synchronized are used to protect shared resources and ensure threa
 
 ## 9. wait(), notify(), notifyAll(), and join()
 
-wait(), notify(), and notifyAll() are used for thread communication and must be called inside a synchronized block or method. wait() releases the lock and makes the current thread wait, while notify() wakes one waiting thread and notifyAll() wakes all waiting threads. join() is different because it makes one thread wait for another thread to finish.
+wait(), notify(), and notifyAll() are used for thread communication and must be called inside a synchronized block or method. 
+
+wait() releases the lock and makes the current thread wait, while notify() wakes one waiting thread and notifyAll() wakes all waiting threads. join() is different because it makes one thread wait for another thread to finish. sleep() pauses the current thread for a specified time. It does not release any lock the thread is holding.
 
 | Method | Meaning |
 |---|---|
@@ -122,7 +150,9 @@ wait() releases the lock. sleep() does not release the lock.
 
 ### runAsync and supplyAsync
 
-runAsync and supplyAsync are used to start asynchronous tasks. runAsync is used when the task does not return a value, while supplyAsync is used when the task returns a result. In production, I would usually pass a custom thread pool instead of using the default common pool.
+runAsync and supplyAsync are used to start asynchronous tasks. runAsync is used when the task does not return a value, while supplyAsync is used when the task returns a result. 
+
+In production, I would usually pass a custom thread pool instead of using the default common pool.
 ```java
 CompletableFuture<Void> f1 =
     CompletableFuture.runAsync(() -> sendEmail());
@@ -134,7 +164,9 @@ CompletableFuture<String> f2 =
 
 ### thenApply and thenApplyAsync
 
-thenApply is used to transform the result of a previous asynchronous task. thenApply may run in the same thread that completed the previous stage, while thenApplyAsync usually runs in another thread from a thread pool. They are useful when we need to process or convert an async result.
+thenApply is used to transform the result of a previous asynchronous task. 
+
+thenApply may run in the same thread that completed the previous stage, while thenApplyAsync usually runs in another thread from a thread pool. They are useful when we need to process or convert an async result.
 
 ```java 
 CompletableFuture<Integer> future =

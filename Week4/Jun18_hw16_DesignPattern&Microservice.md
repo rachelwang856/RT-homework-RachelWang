@@ -7,6 +7,46 @@ The Singleton pattern ensures that only one instance of a class exists throughou
 
 It is commonly used for shared resources such as configuration managers, caches, and logging systems. Singleton helps maintain consistency and reduce resource consumption.
 
+## Eager vs Lazy
+
+### Eager Initialization
+
+Eager initialization creates the Singleton instance when the class is loaded. 
+
+We declare a static final instance inside the class, initialize it immediately, make the constructor private to prevent external object creation, and provide a public static `getInstance()` method to return the instance.
+
+### Lazy Initialization
+
+Lazy initialization delays the creation of the Singleton instance until it is first needed. 
+
+To implement it, we declare the instance as `null`, make the constructor `private` to prevent external object creation, and expose a public static `getInstance()` method. In a multithreaded environment, we typically use **Double-Checked Locking** together with the **volatile** keyword, where the first `if (instance == null)` improves performance by avoiding unnecessary synchronization, the second `if (instance == null)` ensures thread safety by preventing multiple threads from creating multiple instances, and `volatile` guarantees visibility and prevents instruction reordering.
+
+```java
+public class Singleton {
+
+    private static volatile Singleton instance;
+
+    private Singleton() {
+    }
+
+    public static Singleton getInstance() {
+
+        if (instance == null) {                 // First Check
+
+            synchronized (Singleton.class) {
+
+                if (instance == null) {         // Second Check
+                    instance = new Singleton();
+                }
+            }
+        }
+
+        return instance;
+    }
+}
+```
+
+
 ### Banking
 
 #### Fraud Rule Manager
